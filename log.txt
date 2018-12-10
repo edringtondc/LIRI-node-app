@@ -1,0 +1,23 @@
+
+    Artist: ween
+    Date and Time: December 14th 2018, 7:00:11 pm
+    Venue Location: Philadelphia       
+    
+    Title: Aladdin 
+    IMDB rating: 8.0/10 
+    Rotten Tomatoes rating: 94% 
+    Country Produced: USA 
+    Language: English 
+    Plot: When a street urchin vies for the love of a beautiful princess, he uses a genie's magic power to make himself off as a prince in order to marry her. 
+    Actors: Scott Weinger, Robin Williams, Linda Larkin, Jonathan Freeman 
+                    
+    Artist: Grateful Dead 
+    Song name: Ripple 
+    Album link: https://open.spotify.com/track/1OE5l6sedVcIFELMuxQOPI 
+    Song preview: https://p.scdn.co/mp3-preview/74f845db89355e5331044750391e3a553dcc529e?cid=72b5a9a74b0446a5a8ca1b7d51025e89
+    
+    Artist: Backstreet Boys 
+    Song name: I Want It That Way 
+    Album link: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6 
+    Song preview: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=72b5a9a74b0446a5a8ca1b7d51025e89
+    

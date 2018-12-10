@@ -11,247 +11,219 @@ var inquirer = require('inquirer');
 var spotify = new Spotify(keys.spotify);
 var omdbKey = "trilogy";
 
-var searchTerm = "";
+var name = "";
 var song = ""
 var artist = ""
+var movie = ""
+
+
+
 
 //function to initiate user input using inquirer
 function askQuestion() {
+    //confirms user wants to continue, if not program terminates
+    inquirer.prompt([
+        {
+            type: "confirm",
+            message: "Do you want to use Liri-bot?",
+            name: "confirm"
+        }
+    ]).then(function (inquirerResponse) {
 
+        if (inquirerResponse.confirm) {
+
+            inquirer.prompt([
+                {
+                    type: "list",
+                    message: "What do you want to ask Liri?",
+                    choices: ["concert-this", "movie-this", "spotify-this-song", "do-what-it-says"],
+                    name: "commands"
+                },
+            ])
+                .then(function (inquirerResponse) {
+                    //the choice the user makes is stored in command and then passed into the command function, to determine what happens next
+                    var command = inquirerResponse.commands;
+                    commands(command);
+                });
+
+        } else {
+            console.log(`Ok Have a nice day!`)
+        }
+    })
+}
+//function that starts the program
+function sayHello() {
+    //asks user their name
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is your name",
+            name: "name"
+        }
+    ]).then(function (inquirerResponse) {
+        name = inquirerResponse.name
+        console.log(`Hello, ${name}`)
+        askQuestion();
+
+    }).catch(function (error) {
+        console.error("there was an error: " + error);
+    })
+}
+//calling sayHello to start the program
+sayHello();
+
+
+// function to handle the commands from the user input
+function commands(command) {
+    switch (command) {
+        case "concert-this":
+            concertSearch();
+            break;
+        case "movie-this":
+            movieSearch();
+            break;
+        case "spotify-this-song":
+            songSearch();
+            break;
+        case "do-what-it-says":
+            doThis();
+            break;
+        default:
+            console.log('Liri needs to be told what to do...');
+    };
+}
+
+//searches the spotify api for a song
+function songSearch() {
+    //asks user the title of the song they want to search
     inquirer
         .prompt([
             {
                 type: "input",
-                message: "What is your name?",
-                name: "username"
+                message: "Ok, well tell me the song title...",
+                name: "song"
             },
-            {
-                type: "list",
-                message: "What do you want to ask Liri?",
-                choices: ["concert-this", "movie-this", "spotify-this-song", "do-what-it-says"],
-                name: "commands"
-            },
-
-
         ])
-        .then(function (inquirerResponse) {// callback that calls when the user has finished asking questions
-            // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
-            var command = inquirerResponse.commands;
-            var name = inquirerResponse.username;
-            commands(command);
-
-
-
-            // console.log("")
-        });
-}
-// function to handle the commands from the user input
-function commands(command) {
-
-
-    switch (command) {
-        case "concert-this":
-            concertSearch();
-
-
-            break;
-        case "movie-this":
-            movieSearch();
-
-
-            break;
-        case "spotify-this-song":
-            songSearch();
-
-            break;
-        case "do-what-it-says":
-            doThis();
-
-
-            break;
-        default:
-            console.log('Liri needs to be told what to do...')
-    };
-}
-//calling ask question to start off the app
-askQuestion();
-
-//searches the spotify api for a song
-function songSearch() {
-    if (searchTerm) {
-
-
-        spotify.search({ type: 'track', query: searchTerm }, function (err, data) {
-
-
-            if (err) {
-                return console.log('Error occurred: ' + err);
+        .then(function (inquirerResponse) {
+            //checks to see that they answered. If no response, the default is The sign, by Ace of Base
+            if (inquirerResponse.song) {
+                song = inquirerResponse.song;
             }
             else {
-                if
-                // If no song is provided then your program will default to "The Sign" by Ace of Base.
-
-
-                // console.log(data.tracks.items[0]);
-                // Artist(s)
-
-                console.log("Artist: " + data.tracks.items[0].artists[0].name);
-                // The song's name
-                console.log("Song name: " + data.tracks.items[0].name);
-                // The album that the song is from
-                console.log("album link: " + data.tracks.items[0].external_urls.spotify);
-                // A preview link of the song from Spotify
-                console.log("song preview: " + data.tracks.items[0].preview_url)
-
-
+                song = "The Sign Ace of Base";
             }
+            //starts spotify call based on song 
+            spotify.search({ type: 'track', query: song }, function (err, data) {
 
-        });
-
-
-    } else {
-
-        inquirer
-            .prompt([
-                {
-                    type: "input",
-                    message: "Ok, well tell me the song title...",
-                    name: "song"
-                },
-
-            ])
-            .then(function (inquirerResponse) {
-
-                if (song === "") {
-                    song = "the sign ace of base"
-                } else {
-
-
-                    song = inquirerResponse.song;
-
-
-                    spotify.search({ type: 'track', query: song }, function (err, data) {
-
-
-                        if (err) {
-                            return console.log('Error occurred: ' + err);
-                        }
-                        else {
-                            // If no song is provided then your program will default to "The Sign" by Ace of Base.
-
-
-                            console.log(data.tracks.items[0]);
-                            // Artist(s)
-
-                            console.log("Artist: " + data.tracks.items[0].artists[0].name);
-                            // The song's name
-                            console.log("Song name: " + data.tracks.items[0].name);
-                            // The album that the song is from
-                            console.log("album link: " + data.tracks.items[0].external_urls.spotify);
-                            // A preview link of the song from Spotify
-                            console.log("song preview: " + data.tracks.items[0].preview_url)
-
-
-                        }
-
-                    });
+                if (err) {
+                    return console.log('Error occurred: ' + err);
                 }
-
-            }).catch(function (error) {
-                console.error("there was an error: " + error);
-            })
-    }
+                else {
+                    //prints song data from spotify, and logs it to the searches
+                    // console.log(data.tracks.items[0]);
+                    var data = data.tracks.items[0]
+                    var songData = [`
+    Artist: ${data.artists[0].name} 
+    Song name: ${data.name} 
+    Album link: ${data.external_urls.spotify} 
+    Song preview: ${data.preview_url}
+    `].join("/n/r")
+                    console.log("Thanks " + name)
+                    console.log(songData);
+                    logSearches(songData);
+                    askQuestion();
+                }
+            });
+        }).catch(function (error) {
+            console.error("there was an error: " + error);
+        })
 }
 
 //function to search OMDB api
 function movieSearch() {
-
+    //asks user for movie title
     inquirer
         .prompt([
             {
                 type: "input",
                 message: "Ok, well tell me the movie then...",
-                name: "song"
+                name: "movie"
             },
-
         ])
         .then(function (inquirerResponse) {
-
-
-            if (movie === "") {
-                movie = "Mr. Nobody"
-                console.log(`${name}, if you haven't wactched "Mr. Nobody" yet you should! It's on netflix!`)
-            } else {
-
-                movie = inquirerResponse.song;
+            //checks if user entered a movie, if not it defaults to Mr Nobody
+            if (inquirerResponse.movie) {
+                movie = inquirerResponse.movie;
             }
-
-
-
+            else {
+                movie = "Mr. Nobody";
+                console.log("If you haven't seen Mr. Nobody, you should. Its on Netflix")
+            }
             axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=" + omdbKey)
                 .then(
                     function (response) {
 
-                        // console.log(response)
-                        console.log("\r\n");
-                        console.log("Title: " + response.data.Title);
-                        console.log("\r\n");
-                        console.log("IMDB Rating: " + response.data.Ratings[0].Value);
-                        console.log("\r\n");
-                        console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
-                        console.log("\r\n");
-                        console.log("Country Produced: " + response.data.Country);
-                        console.log("\r\n");
-                        console.log("Language: " + response.data.Language);
-                        console.log("\r\n");
-                        console.log("Plot: " + response.data.Plot);
-                        console.log("\r\n");
-                        console.log("Actors: " + response.data.Actors);
-                        
+                        var movieData = [`
+    Title: ${response.data.Title} 
+    IMDB rating: ${response.data.Ratings[0].Value} 
+    Rotten Tomatoes rating: ${response.data.Ratings[1].Value} 
+    Country Produced: ${response.data.Country} 
+    Language: ${response.data.Language} 
+    Plot: ${response.data.Plot} 
+    Actors: ${response.data.Actors} 
+                    `].join("/n/r")
 
+                        console.log(movieData);
+                        logSearches(movieData);
+                        askQuestion();
                     }
                 );
         }).catch(function (error) {
             console.error("there was an error: " + error);
         })
-
 }
 
-//node liri.js concert-this <artist/band name here>
-
+//function to check bandsintown API for upcoming shows
 function concertSearch() {
-
+    //asks user for the bad to search
     inquirer
         .prompt([
-            // Here we create a basic text prompt.
             {
                 type: "input",
                 message: "Ok, well tell me the name of the artist...",
                 name: "artist"
             },
-
         ])
         .then(function (inquirerResponse) {
-
-            artist = inquirerResponse.artist;
-
+            artist = inquirerResponse.artist
+            //searches bands in town via axios 
             axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
                 .then(
                     function (response) {
-                        // Name of the venue
-                        // Venue location
-                        // Date of the Event (use moment to format this as "MM/DD/YYYY")
+                        // console.log(response.data[0])
+                        //checks if there is a response, if not its tells the user they don't have shows coming up
+                        if (response) {
 
-                        console.log(response.data[0].lineup)
-                        console.log(moment(response.data[0].datetime).format("MMMM Do YYYY, h:mm:ss a"));
-                        console.log(response.data[0].venue.city);
+                            var artistData = [`
+    Artist: ${artist}
+    Date and Time: ${moment(response.data[0].datetime).format("MMMM Do YYYY, h:mm:ss a")}
+    Venue Location: ${response.data[0].venue.city}       
+    `].join("/n/r")
+                            console.log(artistData);
+                            logSearches(artistData);
+                        }
+                        else {
+                            console.log("Sorry, this artist does not have any shows coming up")
+                        }
+                        askQuestion();
 
+                    }).catch(function (error) {
+                        console.error("there was an error: " + error);
                     })
         })
-
 }
-// node liri.js do-what-it-says
 
+//reads the file random.txt to do what it says
 function doThis() {
 
     fs.readFile("random.txt", "utf8", function (err, data) {
@@ -259,32 +231,38 @@ function doThis() {
         if (err) {
             console.log("Error: " + err)
         }
+
         var commandArr = data.split(",");
         searchTerm = commandArr[1];
-        commands(commandArr[0]);
+        command = commandArr[0];
 
+        spotify.search({ type: 'track', query: searchTerm }, function (error, data) {
+
+            if (error) {
+                return console.log('Error occurred: ' + error);
+            }
+            else {
+              
+                var songData = [`
+    Artist: ${data.tracks.items[0].artists[0].name} 
+    Song name: ${data.tracks.items[0].name} 
+    Album link: ${data.tracks.items[0].external_urls.spotify} 
+    Song preview: ${data.tracks.items[0].preview_url}
+    `].join("/n/r")
+
+                console.log(songData);
+                logSearches(songData)
+                askQuestion();
+            }
+        });
     })
 }
 
-function logSearches(){
-    fs.appendFile('log.txt', searchTerm, (err) => {
-        
+//function to log the searched data to log.txt
+function logSearches(term) {
+
+    fs.appendFile("log.txt", term, function (err) {
         if (err) throw err;
-        console.log('The "data to append" was appended to file!');
-      });
+    })
 
-
-
-
-
-
-
-
-
-
-// BONUS
-
-
-// In addition to logging the data to your terminal/bash window, output the data to a .txt file called log.txt.
-// Make sure you append each command you run to the log.txt file. 
-// Do not overwrite your file each time you run a command.
+}
