@@ -1,7 +1,7 @@
 {
-  "name": "LIRI-node-app",
+  "name": "liri-node-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Navigate to the root of your project and run npm init -y — this will initialize a package.json file for your project. The package.json file is required for installing third party npm packages and saving their version numbers. If you fail to initialize a package.json file, it will be troublesome, and at times almost impossible for anyone else to run your code after cloning your project. Make a .gitignore file and add the following lines to it. This will tell git not to track these files, and thus they won't be committed to Github.",
   "main": "liri.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,10 +11,18 @@
     "url": "git+https://github.com/edringtondc/LIRI-node-app.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Elisabeth Edrington",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/edringtondc/LIRI-node-app/issues"
   },
-  "homepage": "https://github.com/edringtondc/LIRI-node-app#readme"
+  "homepage": "https://github.com/edringtondc/LIRI-node-app#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^6.2.0",
+    "inquirer": "^6.2.1",
+    "moment": "^2.22.2",
+    "node-spotify-api": "^1.0.7"
+  },
+  "devDependencies": {}
 }

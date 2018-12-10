@@ -1,103 +1,282 @@
-// Make a JavaScript file named liri.js.
-// At the top of the liri.js file, add code to read and set any environment variables with the dotenv package:
+
+//required node packages
+require('dotenv').config()
+var keys = require("./keys")
+var fs = require('fs')
+var axios = require("axios");
+var Spotify = require('node-spotify-api');
+var moment = require('moment');
+var inquirer = require('inquirer');
+//api key variables
+var spotify = new Spotify(keys.spotify);
+var omdbKey = "trilogy";
+
+var searchTerm = "";
+var song = ""
+var artist = ""
+
+//function to initiate user input using inquirer
+function askQuestion() {
+
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What is your name?",
+                name: "username"
+            },
+            {
+                type: "list",
+                message: "What do you want to ask Liri?",
+                choices: ["concert-this", "movie-this", "spotify-this-song", "do-what-it-says"],
+                name: "commands"
+            },
 
 
-require("dotenv").config();
-
-// Add the code required to import the keys.js file and store it in a variable.
-
-
-
-// You should then be able to access your keys information like so
-
-
-  var spotify = new Spotify(keys.spotify);
-
-// Make it so liri.js can take in one of the following commands:
-
-// concert-this
-// spotify-this-song
-// movie-this
-// do-what-it-says
-
-var commands = ["concert-this", "movie-this", "spotify-this-song", "do-what-it-says"];
-
-
-
-
-
-// What Each Command Should Do
-
-
-// node liri.js concert-this <artist/band name here>
-// This will search the Bands in Town Artist Events API ("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp") for an artist and render the following information about each event to the terminal:
-
-
-// Name of the venue
-// Venue location
-// Date of the Event (use moment to format this as "MM/DD/YYYY")
-
-
-
-
-
-// node liri.js spotify-this-song '<song name here>'
-
-
-// This will show the following information about the song in your terminal/bash window
-
-
-// Artist(s)
-// The song's name
-// A preview link of the song from Spotify
-// The album that the song is from
-
-// If no song is provided then your program will default to "The Sign" by Ace of Base.
-// You will utilize the node-spotify-api package in order to retrieve song information from the Spotify API.
-// The Spotify API requires you sign up as a developer to generate the necessary credentials. You can follow these steps in order to generate a client id and client secret:
-// Step One: Visit https://developer.spotify.com/my-applications/#!/
-// Step Two: Either login to your existing Spotify account or create a new one (a free account is fine) and log in.
-// Step Three: Once logged in, navigate to https://developer.spotify.com/my-applications/#!/applications/create to register a new application to be used with the Spotify API. You can fill in whatever you'd like for these fields. When finished, click the "complete" button.
-// Step Four: On the next screen, scroll down to where you see your client id and client secret. Copy these values down somewhere, you'll need them to use the Spotify API and the node-spotify-api package.
+        ])
+        .then(function (inquirerResponse) {// callback that calls when the user has finished asking questions
+            // If the inquirerResponse confirms, we displays the inquirerResponse's username and pokemon from the answers.
+            var command = inquirerResponse.commands;
+            var name = inquirerResponse.username;
+            commands(command);
 
 
 
-// node liri.js movie-this '<movie name here>'
-
-// This will output the following information to your terminal/bash window:
-
-//    * Title of the movie.
-//    * Year the movie came out.
-//    * IMDB Rating of the movie.
-//    * Rotten Tomatoes Rating of the movie.
-//    * Country where the movie was produced.
-//    * Language of the movie.
-//    * Plot of the movie.
-//    * Actors in the movie.
+            // console.log("")
+        });
+}
+// function to handle the commands from the user input
+function commands(command) {
 
 
-// If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
+    switch (command) {
+        case "concert-this":
+            concertSearch();
 
 
-// If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/
-
-// It's on Netflix!
-
-
-// You'll use the axios package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use trilogy.
+            break;
+        case "movie-this":
+            movieSearch();
 
 
+            break;
+        case "spotify-this-song":
+            songSearch();
 
+            break;
+        case "do-what-it-says":
+            doThis();
+
+
+            break;
+        default:
+            console.log('Liri needs to be told what to do...')
+    };
+}
+//calling ask question to start off the app
+askQuestion();
+
+//searches the spotify api for a song
+function songSearch() {
+    if (searchTerm) {
+
+
+        spotify.search({ type: 'track', query: searchTerm }, function (err, data) {
+
+
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+            else {
+                if
+                // If no song is provided then your program will default to "The Sign" by Ace of Base.
+
+
+                // console.log(data.tracks.items[0]);
+                // Artist(s)
+
+                console.log("Artist: " + data.tracks.items[0].artists[0].name);
+                // The song's name
+                console.log("Song name: " + data.tracks.items[0].name);
+                // The album that the song is from
+                console.log("album link: " + data.tracks.items[0].external_urls.spotify);
+                // A preview link of the song from Spotify
+                console.log("song preview: " + data.tracks.items[0].preview_url)
+
+
+            }
+
+        });
+
+
+    } else {
+
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Ok, well tell me the song title...",
+                    name: "song"
+                },
+
+            ])
+            .then(function (inquirerResponse) {
+
+                if (song === "") {
+                    song = "the sign ace of base"
+                } else {
+
+
+                    song = inquirerResponse.song;
+
+
+                    spotify.search({ type: 'track', query: song }, function (err, data) {
+
+
+                        if (err) {
+                            return console.log('Error occurred: ' + err);
+                        }
+                        else {
+                            // If no song is provided then your program will default to "The Sign" by Ace of Base.
+
+
+                            console.log(data.tracks.items[0]);
+                            // Artist(s)
+
+                            console.log("Artist: " + data.tracks.items[0].artists[0].name);
+                            // The song's name
+                            console.log("Song name: " + data.tracks.items[0].name);
+                            // The album that the song is from
+                            console.log("album link: " + data.tracks.items[0].external_urls.spotify);
+                            // A preview link of the song from Spotify
+                            console.log("song preview: " + data.tracks.items[0].preview_url)
+
+
+                        }
+
+                    });
+                }
+
+            }).catch(function (error) {
+                console.error("there was an error: " + error);
+            })
+    }
+}
+
+//function to search OMDB api
+function movieSearch() {
+
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "Ok, well tell me the movie then...",
+                name: "song"
+            },
+
+        ])
+        .then(function (inquirerResponse) {
+
+
+            if (movie === "") {
+                movie = "Mr. Nobody"
+                console.log(`${name}, if you haven't wactched "Mr. Nobody" yet you should! It's on netflix!`)
+            } else {
+
+                movie = inquirerResponse.song;
+            }
+
+
+
+            axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=" + omdbKey)
+                .then(
+                    function (response) {
+
+                        // console.log(response)
+                        console.log("\r\n");
+                        console.log("Title: " + response.data.Title);
+                        console.log("\r\n");
+                        console.log("IMDB Rating: " + response.data.Ratings[0].Value);
+                        console.log("\r\n");
+                        console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+                        console.log("\r\n");
+                        console.log("Country Produced: " + response.data.Country);
+                        console.log("\r\n");
+                        console.log("Language: " + response.data.Language);
+                        console.log("\r\n");
+                        console.log("Plot: " + response.data.Plot);
+                        console.log("\r\n");
+                        console.log("Actors: " + response.data.Actors);
+                        
+
+                    }
+                );
+        }).catch(function (error) {
+            console.error("there was an error: " + error);
+        })
+
+}
+
+//node liri.js concert-this <artist/band name here>
+
+function concertSearch() {
+
+    inquirer
+        .prompt([
+            // Here we create a basic text prompt.
+            {
+                type: "input",
+                message: "Ok, well tell me the name of the artist...",
+                name: "artist"
+            },
+
+        ])
+        .then(function (inquirerResponse) {
+
+            artist = inquirerResponse.artist;
+
+            axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
+                .then(
+                    function (response) {
+                        // Name of the venue
+                        // Venue location
+                        // Date of the Event (use moment to format this as "MM/DD/YYYY")
+
+                        console.log(response.data[0].lineup)
+                        console.log(moment(response.data[0].datetime).format("MMMM Do YYYY, h:mm:ss a"));
+                        console.log(response.data[0].venue.city);
+
+                    })
+        })
+
+}
 // node liri.js do-what-it-says
 
+function doThis() {
+
+    fs.readFile("random.txt", "utf8", function (err, data) {
+        // console.log(data)
+        if (err) {
+            console.log("Error: " + err)
+        }
+        var commandArr = data.split(",");
+        searchTerm = commandArr[1];
+        commands(commandArr[0]);
+
+    })
+}
+
+function logSearches(){
+    fs.appendFile('log.txt', searchTerm, (err) => {
+        
+        if (err) throw err;
+        console.log('The "data to append" was appended to file!');
+      });
 
 
 
-// Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 
 
-// It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
-// Edit the text in random.txt to test out the feature for movie-this and concert-this.
 
 
 
