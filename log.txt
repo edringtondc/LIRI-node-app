@@ -1,15 +1,18 @@
+Log of searches! 
+
+===============================================================
 
     Artist: ween
     Date and Time: December 14th 2018, 7:00:11 pm
     Venue Location: Philadelphia       
     
-    Title: Aladdin 
-    IMDB rating: 8.0/10 
-    Rotten Tomatoes rating: 94% 
+    Title: Toy Story 3 
+    IMDB rating: 8.3/10 
+    Rotten Tomatoes rating: 98% 
     Country Produced: USA 
-    Language: English 
-    Plot: When a street urchin vies for the love of a beautiful princess, he uses a genie's magic power to make himself off as a prince in order to marry her. 
-    Actors: Scott Weinger, Robin Williams, Linda Larkin, Jonathan Freeman 
+    Language: English, Spanish 
+    Plot: The toys are mistakenly delivered to a day-care center instead of the attic right before Andy leaves for college, and it's up to Woody to convince the other toys that they weren't abandoned and to return home. 
+    Actors: Tom Hanks, Tim Allen, Joan Cusack, Ned Beatty 
                     
     Artist: Grateful Dead 
     Song name: Ripple 
