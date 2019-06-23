@@ -174,7 +174,10 @@ function movieSearch() {
                     `].join("/n/r")
 
                         console.log(movieData);
+
+
                         logSearches(movieData);
+                        
                         askQuestion();
                     }
                 );

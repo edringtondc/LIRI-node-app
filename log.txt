@@ -24,3 +24,46 @@ Log of searches!
     Album link: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6 
     Song preview: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=72b5a9a74b0446a5a8ca1b7d51025e89
     
+    Artist: Shawn Mendes
+    Date and Time: March 7th 2019, 6:00:00 pm
+    Venue Location: Nieuw-amsterdam       
+    
+    Title: National Lampoon's Christmas Vacation 
+    IMDB rating: 7.6/10 
+    Rotten Tomatoes rating: 64% 
+    Country Produced: USA 
+    Language: English 
+    Plot: The Griswold family's plans for a big family Christmas predictably turn into a big disaster. 
+    Actors: Chevy Chase, Beverly D'Angelo, Juliette Lewis, Johnny Galecki 
+                    
+    Artist: Shawn Mendes 
+    Song name: Stitches 
+    Album link: https://open.spotify.com/track/5jsw9uXEGuKyJzs0boZ1bT 
+    Song preview: null
+    
+    Title: Aladdin 
+    IMDB rating: 8.0/10 
+    Rotten Tomatoes rating: 94% 
+    Country Produced: USA 
+    Language: English 
+    Plot: When a street urchin vies for the love of a beautiful princess, he uses a genie's magic power to make himself off as a prince in order to marry her. 
+    Actors: Scott Weinger, Robin Williams, Linda Larkin, Jonathan Freeman 
+                    
+    Artist: Phish 
+    Song name: Fluffhead 
+    Album link: https://open.spotify.com/track/3g30fnwwdYGQNAn0LKy7d8 
+    Song preview: https://p.scdn.co/mp3-preview/4637ef291c76aceeeebc55815899cc0d1a7838e5?cid=72b5a9a74b0446a5a8ca1b7d51025e89
+    
+    Title: Super Troopers 
+    IMDB rating: 7.1/10 
+    Rotten Tomatoes rating: 35% 
+    Country Produced: USA 
+    Language: English, German, French 
+    Plot: Five Vermont state troopers, avid pranksters with a knack for screwing up, try to save their jobs and out-do the local police department by solving a crime. 
+    Actors: André Vippolis, Joey Kern, Geoffrey Arend, Erik Stolhanske 
+                    
+    Artist: Backstreet Boys 
+    Song name: I Want It That Way 
+    Album link: https://open.spotify.com/track/6e40mgJiCid5HRAGrbpGA6 
+    Song preview: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=72b5a9a74b0446a5a8ca1b7d51025e89
+    
