@@ -4,7 +4,7 @@
   "description": "Interactive node application",
   "main": "liri.js",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "dotenv": "^6.2.0",
     "inquirer": "^6.2.1",
     "moment": "^2.22.2",
